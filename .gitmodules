@@ -1,0 +1,3 @@
+[submodule "label-studio-ml-backend"]
+	path = label-studio-ml-backend
+	url = git@github.com:DagsHub/ls-custom-ml-backend/
