@@ -1,5 +1,17 @@
 from dagshub.data_engine import datasources
 
+
+def ls_polygon(predictions):
+    result = []
+    for prediction in list(predictions):
+        width, height = prediction.orig_shape
+        for idx, (mask, label_idx) in enumerate(zip(prediction.masks, prediction.boxes.cls.cpu().tolist())):
+            result.append({'result': {'closed': True,
+                                      'points': (prediction.masks.xyn[idx] * 100).astype(float).tolist(),
+                                      'polygonlabels': [prediction.names[label_idx]]},
+                           'model_version': '0.0.1'})
+    return result
+
 def brushlabels(predictions):
     from label_studio_sdk.converter import brush
     from uuid import uuid4
@@ -24,7 +36,7 @@ def brushlabels(predictions):
                 'type': 'brushlabels',
                 'readonly': False
                 })
-        results.append({'result': result, 'score': 1})
+        results.append({'result': result, 'score': 1.})
     return results
 
 def polygonlabels(predictions):
@@ -49,14 +61,14 @@ def polygonlabels(predictions):
                 },
                 'type': 'polygonlabels',
                 'readonly': False,
-                'score': 1
+                'score': 1.
                 })
         results.append({'result': result, 'score': 1})
     return results
 
 
 ds = datasources.get_datasource('jinensetpal/COCO_1K', 'COCO_1K')
-ds.add_annotation_model('jinensetpal/COCO_1K', 'yolov8-seg', polygonlabels)
+ds.add_annotation_model('jinensetpal/COCO_1K', 'yolov8-seg', ls_polygon)
 
 # q = ds.head(size=10)
 # q.annotate_with_mlflow_model('jinensetpal/COCO_1K', 'yolov8-seg', polygonlabels, log_to_field='segmentation_annotation')
