@@ -37,8 +37,7 @@ class DagsHubLSModel(LabelStudioMLBase):
 
         tasks = [(self.ds['path'] == self.dp_map[self.dp_map['datapoint_id'] == task['meta']['datapoint_id']].iloc[0].path).head()[0].download_file().as_posix() for task in tasks] # get local path
 
-        pred = self.model.predict(self.pre_hook(tasks))
-        return self.post_hook(pred)
+        return self.post_hook(self.model.predict(self.pre_hook(tasks)))
     
     def fit(self, event, data, **kwargs):
         pass

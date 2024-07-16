@@ -14,7 +14,7 @@ client = docker.from_env()
 app = Flask(__name__)
 portmap = {}
 
-@app.post('/initialize')
+@app.post('/configure')
 def initialize_hooks():
     global CURRENT_PORT
     ## start a new instance of the image
