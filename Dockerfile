@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG PYTHON_VERSION=3.11
+ARG PYTHON_VERSION=3.12
 
 FROM python:${PYTHON_VERSION}-slim AS python-base
 ARG TEST_ENV
@@ -8,10 +8,9 @@ WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PORT=${PORT:-9090} \
     PIP_CACHE_DIR=/.cache \
     WORKERS=1 \
-    THREADS=8
+    THREADS=2
 
 # Update the base OS
 RUN --mount=type=cache,target="/var/cache/apt",sharing=locked \
@@ -52,4 +51,4 @@ EXPOSE 9090
 ENV VIRTUAL_ENV=/app/.venv/
 ENV PATH=/app/.venv/bin:$PATH
 
-CMD gunicorn --preload --bind :$PORT --workers $WORKERS --threads $THREADS --timeout 0 _wsgi:app
+CMD gunicorn --preload --bind :9090 --workers $WORKERS --threads $THREADS --timeout 0 _wsgi:app

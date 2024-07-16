@@ -1,16 +1,31 @@
 from dagshub.data_engine import datasources
+from uuid import uuid4
 
 
-def ls_polygon(predictions):
+# smart default selection for if hook is going to LS or directly through DE, refactor hooks.py to task_name.py with pre_hook, post_hook
+def polygon_segmentation_post_hook(predictions):
     result = []
     for prediction in list(predictions):
         width, height = prediction.orig_shape
-        for idx, (mask, label_idx) in enumerate(zip(prediction.masks, prediction.boxes.cls.cpu().tolist())):
-            result.append({'result': {'closed': True,
-                                      'points': (prediction.masks.xyn[idx] * 100).astype(float).tolist(),
-                                      'polygonlabels': [prediction.names[label_idx]]},
-                           'model_version': '0.0.1'})
-    return result
+        min_score = 1.
+        for idx, (mask, label_idx, score) in enumerate(zip(prediction.masks, prediction.boxes.cls.cpu().tolist(), prediction.boxes.conf.tolist())):
+            if score < min_score: min_score = score
+            result.append({'id': str(uuid4())[:4],
+                           'from_name': 'label',
+                           'to_name': 'image',
+                           'original_width': width,
+                           'original_height': height,
+                           'image_rotation': 0,
+                           'value': {
+                               'closed': True,
+                               'points': (prediction.masks.xyn[idx] * 100).astype(float).tolist(),
+                               'polygonlabels': [prediction.names[label_idx]],
+                               'score': score},
+                            'type': 'polygonlabels',
+                            'readonly': False})
+    return [{'result': result,
+             'score': min_score,
+             'model_version': '0.0.1'}]
 
 def brushlabels(predictions):
     from label_studio_sdk.converter import brush
@@ -66,10 +81,10 @@ def polygonlabels(predictions):
         results.append({'result': result, 'score': 1})
     return results
 
-
-ds = datasources.get_datasource('jinensetpal/COCO_1K', 'COCO_1K')
-ds.add_annotation_model('jinensetpal/COCO_1K', 'yolov8-seg', ls_polygon)
-
-# q = ds.head(size=10)
-# q.annotate_with_mlflow_model('jinensetpal/COCO_1K', 'yolov8-seg', polygonlabels, log_to_field='segmentation_annotation')
-# ds.metadata_field('segmentation_annotation').set_annotation().apply()
+if __name__ == '__main__': 
+    ds = datasources.get_datasource('jinensetpal/COCO_1K', 'COCO_1K')
+    ds.add_annotation_model('jinensetpal/COCO_1K', 'yolov8-seg', polygon_segmentation_post_hook)
+    
+    # q = ds.head(size=10)
+    # q.annotate_with_mlflow_model('jinensetpal/COCO_1K', 'yolov8-seg', polygonlabels, log_to_field='segmentation_annotation')
+    # ds.metadata_field('segmentation_annotation').set_annotation().apply()
