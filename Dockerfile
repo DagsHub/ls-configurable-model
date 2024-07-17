@@ -51,4 +51,6 @@ EXPOSE 9090
 ENV VIRTUAL_ENV=/app/.venv/
 ENV PATH=/app/.venv/bin:$PATH
 
+# uncomment for better debugging
+# CMD label-studio-ml start .
 CMD gunicorn --preload --bind :9090 --workers $WORKERS --threads $THREADS --timeout 0 _wsgi:app
