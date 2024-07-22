@@ -5,7 +5,6 @@ from label_studio_ml.response import ModelResponse
 
 from label_studio_sdk.converter import brush
 from uuid import uuid4
-import torch
 import json
 
 
