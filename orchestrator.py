@@ -18,7 +18,7 @@ portmap = {}
 def initialize_hooks():
     global CURRENT_PORT
     ## start a new instance of the image
-    portmap[CURRENT_PORT] = client.containers.run('configurable-ls-backend', ports={f'9090/tcp': str(9091)}, detach=True)
+    portmap[CURRENT_PORT] = client.containers.run('configurable-ls-backend', ports={f'9090/tcp': str(CURRENT_PORT)}, detach=True)
     time.sleep(10)
     ## configure the model
     requests.post(f'http://127.0.0.1:{CURRENT_PORT}/configure',
