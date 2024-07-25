@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+def get_config():
+    return {'repo': 'jinensetpal/asr',
+            'name': 'model',
+            'version': '8',
+            'post_hook': post_hook,
+            'pre_hook': pre_hook,
+            'label_config': LABEL_CONFIG}
+
 def pre_hook(paths):
     return paths
 

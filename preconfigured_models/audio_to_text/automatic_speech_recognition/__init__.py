@@ -1,12 +1,5 @@
-import cloudpickle
-from . import quartznet
+#!/usr/bin/env python3
 
-def get_config():
-    cloudpickle.register_pickle_by_value(quartznet)
+from quartznet import get_config
 
-    return {'repo': 'jinensetpal/asr',
-            'name': 'model',
-            'version': '8',
-            'post_hook': quartznet.post_hook,
-            'pre_hook': quartznet.pre_hook,
-            'label_config': quartznet.LABEL_CONFIG}
+__all__ = [get_config.__name__]

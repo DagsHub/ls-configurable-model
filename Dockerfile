@@ -19,7 +19,7 @@ RUN --mount=type=cache,target="/var/cache/apt",sharing=locked \
     apt-get update; \
     apt-get upgrade -y; \
     apt install --no-install-recommends -y  \
-        git build-essential; \
+        git build-essential gcc zlib1g-dev libjpeg-dev; \
     apt-get autoremove -y
 
 RUN pip install uv; uv venv
