@@ -1,3 +1,5 @@
 dagshub
 shell-utils
 mlflow
+wheel
+	setuptools
