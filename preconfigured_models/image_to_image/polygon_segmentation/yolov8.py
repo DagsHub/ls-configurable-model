@@ -1,7 +1,7 @@
 def get_config():
     return {'repo': 'jinensetpal/COCO_1K',
             'name': 'yolov8-seg',
-            'version': '2',
+            'version': '4',
             'post_hook': post_hook,
             'pre_hook': pre_hook,
             'label_config': LABEL_CONFIG}

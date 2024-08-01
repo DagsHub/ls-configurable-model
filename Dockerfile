@@ -8,7 +8,7 @@ WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PIP_CACHE_DIR=/.cache \
+    PIP_CACHE_DIR=/root/.cache/uv \
     WORKERS=1 \
     THREADS=2
 
@@ -19,7 +19,7 @@ RUN --mount=type=cache,target="/var/cache/apt",sharing=locked \
     apt-get update; \
     apt-get upgrade -y; \
     apt install --no-install-recommends -y  \
-        git build-essential gcc zlib1g-dev libjpeg-dev; \
+        git build-essential gcc zlib1g-dev libjpeg-dev libsm6 libxext6 ffmpeg libfontconfig1 libxrender1 libgl1-mesa-glx; \ 
     apt-get autoremove -y
 
 RUN pip install uv; uv venv
@@ -41,7 +41,6 @@ RUN --mount=type=cache,target=${PIP_CACHE_DIR},sharing=locked \
     if [ "$TEST_ENV" = "true" ]; then \
       uv pip install -r requirements-test.txt; \
     fi
-RUN apt update; apt install -y libsm6 libxext6 ffmpeg libfontconfig1 libxrender1 libgl1-mesa-glx
 
 COPY . .
 RUN uv pip install -e label-studio-ml-backend/
