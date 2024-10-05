@@ -1,2 +1,5 @@
 gunicorn==22.0.0
-label-studio-ml @ git+https://github.com/HumanSignal/label-studio-ml-backend.git
+ngrok-python==1.4.0
+label-studio-ml==1.0.8
+cloudpickle
+asyncio
