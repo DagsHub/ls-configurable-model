@@ -1,6 +1,6 @@
 def get_config():
     return {'repo': 'jinensetpal/autolabelling-models',
-            'name': '',
+            'name': 'easy_ocr',
             'version': '2',
             'post_hook': post_hook,
             'pre_hook': pre_hook,
