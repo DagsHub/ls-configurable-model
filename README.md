@@ -1,14 +1,21 @@
-# Configurable Backend
+# Introduction
+Setting up auto labeling is a long and tedious process. 
+Large parts can be automated if your model is connected via MLflow, and this project helps set such a system up in a few minutes.
 
-This project allows you to create a custom LabelStudio backend from any MLFlow model hosted on DagsHub.
-
-## Introduction
-
-Setting up a LabelStudio Backend is a long and tedious process. Large parts can be automated if your model is connected via MLflow, and this project helps set such a system up. 
+Here's what it does:
+- Connects your MLflow-registered models directly with Label Studio for auto-labeling.
+- No need for complex backend setup or manual server configs.
+- Comes with pre-configured models for common tasks like polygon segmentation.
+- You can customize it with your own hooks.
+- Works out-of-the-box with DagsHub's free hosted MLflow and Label Studio
 
 Users have two points of injection: a `post_hook` and a `pre_hook`. The `pre_hook` takes as input a local filepath to the downloaded datapoint for annotation, which is then forwarded to the MLflow model for prediction, which finally is forwarded to the `post_hook` for conversion to the LS format.
 
 The `pre_hook` is optional, and defaults to the identity function `lambda x: x`.
+<div>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKTwB19Up3aKSYGMJtPrAdlbziH77R5Wmbvg&s" height="100"/>
+  <img src="https://miro.medium.com/v2/resize:fit:750/1*OsB57V0FPteixDBD_BBN4g.png" height="100" align="right" />
+</div>
 
 ## Steps for Setup
 
