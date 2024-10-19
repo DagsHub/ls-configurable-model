@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
 ARG PYTHON_VERSION=3.12
+ARG USE_PIP_CACHE=true
 
 FROM python:${PYTHON_VERSION}-slim AS python-base
 ARG TEST_ENV
@@ -26,20 +27,29 @@ RUN pip install uv; uv venv
 
 # install base requirements
 COPY requirements-base.txt .
-RUN --mount=type=cache,target=${PIP_CACHE_DIR},sharing=locked \
-    uv pip install -r requirements-base.txt
+RUN if [ "$USE_PIP_CACHE" = "true" ]; then \
+      uv pip install -r requirements-base.txt --cache-dir ${PIP_CACHE_DIR}; \
+    else \
+      uv pip install -r requirements-base.txt; \
+    fi
 
 # install custom requirements
 COPY requirements.txt .
-RUN --mount=type=cache,target=${PIP_CACHE_DIR},sharing=locked \
-    uv pip install -r requirements.txt
+RUN if [ "$USE_PIP_CACHE" = "true" ]; then \
+      uv pip install -r requirements.txt --cache-dir ${PIP_CACHE_DIR}; \
+    else \
+      uv pip install -r requirements.txt; \
+    fi
 
 # install test requirements if needed
 COPY requirements-test.txt .
 # build only when TEST_ENV="true"
-RUN --mount=type=cache,target=${PIP_CACHE_DIR},sharing=locked \
-    if [ "$TEST_ENV" = "true" ]; then \
-      uv pip install -r requirements-test.txt; \
+RUN if [ "$TEST_ENV" = "true" ]; then \
+    if [ "$USE_PIP_CACHE" = "true" ]; then \
+        uv pip install -r requirements-test.txt --cache-dir ${PIP_CACHE_DIR}; \
+    else \
+        uv pip install -r requirements-test.txt; \
+    fi; \
     fi
 
 COPY . .

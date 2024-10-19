@@ -1,7 +1,7 @@
 def get_config():
-    return {'repo': 'jinensetpal/COCO_1K',
-            'name': 'yolov8-seg',
-            'version': '4',
+    return {'repo': 'DagsHub/ls-configurable-model',
+            'name': 'polygon_segmentation',
+            'version': '6',
             'post_hook': post_hook,
             'pre_hook': pre_hook,
             'label_config': LABEL_CONFIG}
