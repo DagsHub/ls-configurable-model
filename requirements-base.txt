@@ -1,4 +1,4 @@
 gunicorn==22.0.0
-ngrok-python==1.4.0
-label-studio-ml==1.0.8
-cloudpickle
+ngrok==1.4.0
+label-studio-ml==1.0.9
+cloudpickle==3.0.0

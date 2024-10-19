@@ -1,5 +1,5 @@
 def get_config():
-    return {'repo': 'jinensetpal/autolabelling-models',
+    return {'repo': 'DagsHub/ls-configurable-model',
             'name': 'easy_ocr',
             'version': '2',
             'post_hook': post_hook,
