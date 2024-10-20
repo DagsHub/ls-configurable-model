@@ -1,3 +1,4 @@
+![Banner](imgs/auto_labeling_banner.png)
 # Introduction
 Setting up auto labeling is a long and tedious process. 
 Large parts can be automated if your model is connected via MLflow, and this project helps set such a system up in a few minutes.
@@ -12,10 +13,6 @@ Here's what it does:
 Users have two points of injection: a `post_hook` and a `pre_hook`. The `pre_hook` takes as input a local filepath to the downloaded datapoint for annotation, which is then forwarded to the MLflow model for prediction, which finally is forwarded to the `post_hook` for conversion to the LS format.
 
 The `pre_hook` is optional, and defaults to the identity function `lambda x: x`.
-<div>
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKTwB19Up3aKSYGMJtPrAdlbziH77R5Wmbvg&s" height="100"/>
-  <img src="https://miro.medium.com/v2/resize:fit:750/1*OsB57V0FPteixDBD_BBN4g.png" height="100" align="right" />
-</div>
 
 ## Steps for Setup
 
@@ -27,7 +24,7 @@ The `pre_hook` is optional, and defaults to the identity function `lambda x: x`.
 
 The backend is now ready. now we move to the client.
 
-4. pip install git+https://github.com/DagsHub/client@ls-remote+mlflow
+4. pip install dagshub
 
 Once this is working, you're ready to use any MLflow model as a LS backend. The last thing left to supply is hooks, one that processes filepaths into the desired input, and one that takes the predictions from an MLflow model and converts them into the LabelStudio format. Refer to the following section for details on building a post hook.
 
