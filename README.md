@@ -10,6 +10,8 @@ Here's what it does:
 - You can customize it with your own hooks.
 - Works out-of-the-box with DagsHub's free hosted MLflow and Label Studio
 
+### [Demo video](https://youtu.be/GgehjwFmVSw?si=2l4sc6Ywe-b7p5ZS)
+
 Users have two points of injection: a `post_hook` and a `pre_hook`. The `pre_hook` takes as input a local filepath to the downloaded datapoint for annotation, which is then forwarded to the MLflow model for prediction, which finally is forwarded to the `post_hook` for conversion to the LS format.
 
 The `pre_hook` is optional, and defaults to the identity function `lambda x: x`.
