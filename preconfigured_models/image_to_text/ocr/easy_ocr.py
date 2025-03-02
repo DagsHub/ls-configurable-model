@@ -17,7 +17,7 @@ def post_hook(predictions):
         width, height = prediction["orig_shape"]
         min_score = 1.
         for res in prediction["result"]:
-            uuid = str(uuid4())[:4]
+            uuid = uuid4().hex[:10]
             if res["score"] < min_score: min_score = res["score"]
             result.append({
                 'original_width': width,

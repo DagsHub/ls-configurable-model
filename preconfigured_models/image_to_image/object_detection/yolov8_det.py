@@ -24,7 +24,7 @@ def post_hook(predictions):
             y = (y_center - box_height / 2) if height else 0
 
             result.append({
-                'id': str(uuid4())[:4],
+                'id': uuid4().hex[:10],
                 'from_name': 'label',
                 'to_name': 'image',
                 'original_width': width,

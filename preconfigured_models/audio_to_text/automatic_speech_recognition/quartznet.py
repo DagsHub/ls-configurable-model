@@ -17,7 +17,7 @@ def post_hook(predictions):
 
     result = []
     for prediction in predictions:
-        result.append({'id': str(uuid4())[:4],
+        result.append({'id': uuid4().hex[:10],
                        'from_name': 'transcription',
                        'to_name': 'audio',
                        'value': {

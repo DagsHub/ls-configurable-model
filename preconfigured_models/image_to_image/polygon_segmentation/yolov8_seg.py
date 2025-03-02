@@ -18,7 +18,7 @@ def post_hook(predictions):
         min_score = 1.
         for idx, (mask, label_idx, score) in enumerate(zip(prediction.masks, prediction.boxes.cls.cpu().tolist(), prediction.boxes.conf.tolist())):
             if score < min_score: min_score = score
-            result.append({'id': str(uuid4())[:4],
+            result.append({'id': uuid4().hex[:10],
                            'from_name': 'label',
                            'to_name': 'image',
                            'original_width': width,
