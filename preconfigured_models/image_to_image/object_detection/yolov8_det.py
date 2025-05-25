@@ -14,7 +14,7 @@ def post_hook(predictions):
     result = []
 
     for prediction in list(predictions):
-        width, height = prediction.orig_shape
+        height, width = prediction.orig_shape
         min_score = 1.
         for idx, (box, label_idx, score) in enumerate(zip(prediction.boxes.xywh, prediction.boxes.cls.cpu().tolist(), prediction.boxes.conf.tolist())):
             if score < min_score: min_score = score
